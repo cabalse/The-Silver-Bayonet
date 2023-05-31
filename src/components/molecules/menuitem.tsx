@@ -1,12 +1,12 @@
 type Props = {
-  href?: string;
   text: string;
+  onClick: () => void;
 };
 
-const MenuItem = ({ href, text }: Props) => {
+const MenuItem = ({ text, onClick }: Props) => {
   return (
     <a
-      href={href}
+      onClick={onClick}
       className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
     >
       <span className="text-2xl">

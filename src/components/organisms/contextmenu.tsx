@@ -11,7 +11,7 @@ const ContextMenu = ({ state }: Props) => {
     default:
       return (
         <>
-          <MenuItem text="Connect" />
+          <MenuItem text="Connect" onClick={() => console.log("click")} />
         </>
       );
   }
