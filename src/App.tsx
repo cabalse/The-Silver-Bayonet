@@ -9,6 +9,7 @@ import "./app.css";
 
 type OfficerProps = {
   id: number;
+  image: string;
   startPos: { x: number; y: number };
   borderColor: string;
   redoMove: boolean;
@@ -23,7 +24,7 @@ const Officer = (props: OfficerProps) => {
   const height = 50;
 
   const lineRef = useRef(null);
-  const [image] = useImage(soldier);
+  const [image] = useImage(props.image);
   const [state, setState] = useState({
     id: props.id,
     isSelected: false,
@@ -160,6 +161,7 @@ function App() {
         <Layer>
           <Officer
             id={1}
+            image={soldier}
             startPos={{ x: 200, y: 200 }}
             borderColor={"red"}
             redoMove={redoMovement && state.currentSelectedUnit === 1}
@@ -176,6 +178,7 @@ function App() {
           />
           <Officer
             id={2}
+            image={soldier}
             startPos={{ x: 200, y: 400 }}
             borderColor={"blue"}
             redoMove={redoMovement && state.currentSelectedUnit === 2}
@@ -192,6 +195,7 @@ function App() {
           />
           <Officer
             id={3}
+            image={soldier}
             startPos={{ x: 400, y: 400 }}
             borderColor={"blue"}
             redoMove={redoMovement && state.currentSelectedUnit === 3}
