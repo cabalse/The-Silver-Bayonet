@@ -68,8 +68,8 @@ const Officer = (props: OfficerProps) => {
         shadowOpacity={0.6}
         shadowOffsetX={state.isDragging ? 10 : 5}
         shadowOffsetY={state.isDragging ? 10 : 5}
-        scaleX={state.isDragging ? 1.01 : 1}
-        scaleY={state.isDragging ? 1.01 : 1}
+        scaleX={state.isDragging ? 1.1 : 1}
+        scaleY={state.isDragging ? 1.1 : 1}
         strokeWidth={state.isSelected ? 2 : 0}
         stroke={props.borderColor}
         width={width}
@@ -82,8 +82,10 @@ const Officer = (props: OfficerProps) => {
         }}
         onDragStart={(e) => {
           setState((prevState) => {
+            props.onSelect(state.id);
             const ret = {
               ...prevState,
+              isSelected: true,
               currentPos: { x: e.target.attrs.x, y: e.target.attrs.y },
               startPosOfMovement: { x: e.target.attrs.x, y: e.target.attrs.y },
               isDragging: true,
@@ -160,7 +162,7 @@ function App() {
             id={1}
             startPos={{ x: 200, y: 200 }}
             borderColor={"red"}
-            redoMove={redoMovement}
+            redoMove={redoMovement && state.currentSelectedUnit === 1}
             onRedoMovementDone={() => setRedoMovement(false)}
             unSelect={unSelect && state.currentSelectedUnit != 1}
             onSelect={(id) => {
@@ -176,7 +178,7 @@ function App() {
             id={2}
             startPos={{ x: 200, y: 400 }}
             borderColor={"blue"}
-            redoMove={redoMovement}
+            redoMove={redoMovement && state.currentSelectedUnit === 2}
             onRedoMovementDone={() => setRedoMovement(false)}
             unSelect={unSelect && state.currentSelectedUnit != 2}
             onSelect={(id) => {
@@ -192,7 +194,7 @@ function App() {
             id={3}
             startPos={{ x: 400, y: 400 }}
             borderColor={"blue"}
-            redoMove={redoMovement}
+            redoMove={redoMovement && state.currentSelectedUnit === 3}
             onRedoMovementDone={() => setRedoMovement(false)}
             unSelect={unSelect && state.currentSelectedUnit != 3}
             onSelect={(id) => {
