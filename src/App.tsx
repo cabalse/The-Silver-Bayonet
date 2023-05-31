@@ -1,4 +1,4 @@
-import react, { useRef, useState } from "react";
+import react, { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image, Line } from "react-konva";
 import useImage from "use-image";
 
@@ -7,6 +7,11 @@ import soldier from "./assets/officer.png";
 
 import "./app.css";
 
+type OfficerProps = {
+  redoMove: boolean;
+  onRedoMovementDone: () => void;
+};
+
 const Map = () => {
   const [image] = useImage(map);
   return <Image image={image} />;
@@ -14,8 +19,9 @@ const Map = () => {
 
 function App() {
   const stageRef = useRef(null);
+  const [redoMovement, setRedoMovement] = useState(false);
 
-  const Officer = () => {
+  const Officer = (props: OfficerProps) => {
     const startPos = { x: 100, y: 100 };
     const width = 50;
     const height = 50;
@@ -24,18 +30,32 @@ function App() {
     const [image] = useImage(soldier);
     const [state, setState] = useState({
       isDragging: false,
+      currentPos: startPos,
       startPos: startPos,
       draggingStartPos: { x: 0, y: 0 },
     });
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+      if (props.redoMove) {
+        setState((prevState) => {
+          props.onRedoMovementDone();
+          return {
+            ...prevState,
+            currentPos: prevState.draggingStartPos,
+          };
+        });
+      }
+    }, [props]);
+
     return (
       <>
         <Image
           image={image}
           key={1}
           id={"1"}
-          x={startPos.x}
-          y={startPos.y}
+          x={state.currentPos.x}
+          y={state.currentPos.y}
           draggable
           shadowColor="black"
           shadowBlur={10}
@@ -90,7 +110,7 @@ function App() {
 
   return (
     <>
-      <button onClick={() => console.log("Click")}>Undo Movement</button>
+      <button onClick={() => setRedoMovement(true)}>Undo Movement</button>
       <Stage
         ref={stageRef}
         width={window.innerWidth}
@@ -100,7 +120,12 @@ function App() {
           <Map />
         </Layer>
         <Layer>
-          <Officer />
+          <Officer
+            redoMove
+            onRedoMovementDone={() => {
+              setRedoMovement(false);
+            }}
+          />
         </Layer>
       </Stage>
     </>
