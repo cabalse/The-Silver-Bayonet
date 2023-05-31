@@ -8,8 +8,13 @@ import soldier from "./assets/officer.png";
 import "./app.css";
 
 type OfficerProps = {
+  id: number;
   startPos: { x: number; y: number };
+  borderColor: string;
   redoMove: boolean;
+  onSelect: (id: number) => void;
+  unSelect: boolean;
+  onUnSelectDone: () => void;
   onRedoMovementDone: () => void;
 };
 
@@ -20,6 +25,8 @@ const Officer = (props: OfficerProps) => {
   const lineRef = useRef(null);
   const [image] = useImage(soldier);
   const [state, setState] = useState({
+    id: props.id,
+    isSelected: false,
     isDragging: false,
     currentPos: props.startPos,
     startPosOfMovement: props.startPos,
@@ -35,7 +42,13 @@ const Officer = (props: OfficerProps) => {
           ...prevState,
           currentPos: prevState.startPosOfMovement,
         };
-        console.log("Reset Movement", ret);
+        return ret;
+      });
+    }
+    if (props.unSelect) {
+      setState((prevState) => {
+        props.onUnSelectDone();
+        const ret = { ...prevState, isSelected: false };
         return ret;
       });
     }
@@ -45,7 +58,7 @@ const Officer = (props: OfficerProps) => {
     <>
       <Image
         image={image}
-        key={1}
+        key={state.id}
         id={"1"}
         x={state.currentPos.x}
         y={state.currentPos.y}
@@ -57,8 +70,16 @@ const Officer = (props: OfficerProps) => {
         shadowOffsetY={state.isDragging ? 10 : 5}
         scaleX={state.isDragging ? 1.01 : 1}
         scaleY={state.isDragging ? 1.01 : 1}
+        strokeWidth={state.isSelected ? 2 : 0}
+        stroke={props.borderColor}
         width={width}
         height={height}
+        onClick={() => {
+          setState((prevState) => {
+            return { ...prevState, isSelected: true };
+          });
+          props.onSelect(state.id);
+        }}
         onDragStart={(e) => {
           setState((prevState) => {
             const ret = {
@@ -71,7 +92,6 @@ const Officer = (props: OfficerProps) => {
                 y: e.target.attrs.y + height / 2,
               },
             };
-            console.log("DragStart", ret);
             return ret;
           });
         }}
@@ -83,7 +103,6 @@ const Officer = (props: OfficerProps) => {
               isDragging: false,
               draggingStartPos: { x: 0, y: 0 },
             };
-            console.log("DragEnd", ret);
             return ret;
           });
           setDragPos({ x: 0, y: 0 });
@@ -117,7 +136,13 @@ const Map = () => {
 
 function App() {
   const stageRef = useRef(null);
+
+  const [state, setState] = useState({
+    currentSelectedUnit: 0,
+  });
+
   const [redoMovement, setRedoMovement] = useState(false);
+  const [unSelect, setUnSelect] = useState(false);
 
   return (
     <>
@@ -132,11 +157,52 @@ function App() {
         </Layer>
         <Layer>
           <Officer
+            id={1}
             startPos={{ x: 200, y: 200 }}
+            borderColor={"red"}
             redoMove={redoMovement}
-            onRedoMovementDone={() => {
-              setRedoMovement(false);
+            onRedoMovementDone={() => setRedoMovement(false)}
+            unSelect={unSelect && state.currentSelectedUnit != 1}
+            onSelect={(id) => {
+              setState((prevState) => {
+                setUnSelect(true);
+                const ret = { ...prevState, currentSelectedUnit: id };
+                return ret;
+              });
             }}
+            onUnSelectDone={() => setUnSelect(false)}
+          />
+          <Officer
+            id={2}
+            startPos={{ x: 200, y: 400 }}
+            borderColor={"blue"}
+            redoMove={redoMovement}
+            onRedoMovementDone={() => setRedoMovement(false)}
+            unSelect={unSelect && state.currentSelectedUnit != 2}
+            onSelect={(id) => {
+              setState((prevState) => {
+                setUnSelect(true);
+                const ret = { ...prevState, currentSelectedUnit: id };
+                return ret;
+              });
+            }}
+            onUnSelectDone={() => setUnSelect(false)}
+          />
+          <Officer
+            id={3}
+            startPos={{ x: 400, y: 400 }}
+            borderColor={"blue"}
+            redoMove={redoMovement}
+            onRedoMovementDone={() => setRedoMovement(false)}
+            unSelect={unSelect && state.currentSelectedUnit != 3}
+            onSelect={(id) => {
+              setState((prevState) => {
+                setUnSelect(true);
+                const ret = { ...prevState, currentSelectedUnit: id };
+                return ret;
+              });
+            }}
+            onUnSelectDone={() => setUnSelect(false)}
           />
         </Layer>
       </Stage>
