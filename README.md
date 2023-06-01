@@ -1,4 +1,16 @@
-# The Silver Bayonet Client and Server
+# The Silver Bayonet VTT
 
-The Silver Bayonet Client is a VTT program that allow two players to play a game of The Silver Bayonet figure game.
-The clients connect to the server that servs as the communication hub for the game.
+The Silver Bayonet application is a VTT - Virtual Table Top application, that allow two persons to play a game of The Silver Bayonet figure game.
+
+## Client and Server
+
+The repo is divided into a Client program and a Server application.
+Each client is a React web application while the server is Node Express server functioning as the communication hub.
+
+### Client
+
+
+
+### Server
+
+
