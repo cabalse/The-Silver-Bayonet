@@ -1,7 +1,8 @@
 import { KonvaEventObject } from "konva/lib/Node";
 import react, { useEffect, useRef, useState } from "react";
-import { Image, Line } from "react-konva";
+import { Image, Line, Text } from "react-konva";
 import useImage from "use-image";
+import { distanceInInches } from "../../utilities/distance";
 
 type PlayingPieceProps = {
   id: number;
@@ -113,6 +114,18 @@ const PlayingPiece = (props: PlayingPieceProps) => {
           });
         }}
       />
+      {state.isDragging ? (
+        <Text
+          text={distanceInInches(
+            state.draggingStartPos.x,
+            state.draggingStartPos.y,
+            dragPos.x,
+            dragPos.y
+          ).toString()}
+          x={state.draggingStartPos.x}
+          y={state.draggingStartPos.y}
+        />
+      ) : null}
       <Line
         ref={lineRef}
         points={[
