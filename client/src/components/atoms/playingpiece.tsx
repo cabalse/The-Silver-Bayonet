@@ -1,3 +1,4 @@
+import { KonvaEventObject } from "konva/lib/Node";
 import react, { useEffect, useRef, useState } from "react";
 import { Image, Line } from "react-konva";
 import useImage from "use-image";
