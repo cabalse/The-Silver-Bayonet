@@ -122,8 +122,8 @@ const PlayingPiece = (props: PlayingPieceProps) => {
             dragPos.x,
             dragPos.y
           ).toString()}
-          x={state.draggingStartPos.x}
-          y={state.draggingStartPos.y}
+          x={dragPos.x}
+          y={dragPos.y}
         />
       ) : null}
       <Line

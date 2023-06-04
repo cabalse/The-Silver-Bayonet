@@ -2,6 +2,7 @@ import { ReactElement, createElement } from "react";
 import ScenarioOneSetup from "../../data/scenarioonesetup";
 import PlayingPiece from "../atoms/playingpiece";
 import Scenario from "../../models/scenario";
+import Position from "../../models/position";
 
 type CreatePlayingPiecesProps = {
   scenarioName: string;
@@ -26,51 +27,37 @@ const CreatePlayingPieces = ({
 
   if (!scenarioSetup) return <></>;
 
+  const createPlayingPiecesElement = (
+    id: number,
+    image: string,
+    position: Position,
+    color: string
+  ) => {
+    return createElement(PlayingPiece, {
+      id: id,
+      image: image,
+      startPos: position,
+      borderColor: color,
+      redoMove: redoMove.redoMovement && redoMove.currentSelectedUnit === id,
+      onSelect: () => onSelect(id),
+      unSelect: unSelect.unSelect && unSelect.currentSelectedUnit != id,
+      onUnSelectDone: onUnSelectDone,
+      onRedoMovementDone: onRedoMovementDone,
+    });
+  };
+
   const ret: ReactElement[] = [];
 
   scenarioSetup.playingPieces.red.map((pp) => {
-    const element = createElement(PlayingPiece, {
-      id: pp.id,
-      image: pp.image,
-      startPos: pp.position,
-      borderColor: "red",
-      redoMove: redoMove.redoMovement && redoMove.currentSelectedUnit === pp.id,
-      onSelect: () => onSelect(pp.id),
-      unSelect: unSelect.unSelect && unSelect.currentSelectedUnit != pp.id,
-      onUnSelectDone: onUnSelectDone,
-      onRedoMovementDone: onRedoMovementDone,
-    });
-    ret.push(element);
+    ret.push(createPlayingPiecesElement(pp.id, pp.image, pp.position, "red"));
   });
 
   scenarioSetup.playingPieces.blue.map((pp) => {
-    const element = createElement(PlayingPiece, {
-      id: pp.id,
-      image: pp.image,
-      startPos: pp.position,
-      borderColor: "blue",
-      redoMove: redoMove.redoMovement && redoMove.currentSelectedUnit === pp.id,
-      onSelect: () => onSelect(pp.id),
-      unSelect: unSelect.unSelect && unSelect.currentSelectedUnit != pp.id,
-      onUnSelectDone: onUnSelectDone,
-      onRedoMovementDone: onRedoMovementDone,
-    });
-    ret.push(element);
+    ret.push(createPlayingPiecesElement(pp.id, pp.image, pp.position, "blue"));
   });
 
   scenarioSetup.playingPieces.neutral.map((pp) => {
-    const element = createElement(PlayingPiece, {
-      id: pp.id,
-      image: pp.image,
-      startPos: pp.position,
-      borderColor: "grey",
-      redoMove: redoMove.redoMovement && redoMove.currentSelectedUnit === pp.id,
-      onSelect: () => onSelect(pp.id),
-      unSelect: unSelect.unSelect && unSelect.currentSelectedUnit != pp.id,
-      onUnSelectDone: onUnSelectDone,
-      onRedoMovementDone: onRedoMovementDone,
-    });
-    ret.push(element);
+    ret.push(createPlayingPiecesElement(pp.id, pp.image, pp.position, "grey"));
   });
 
   return <>{ret}</>;

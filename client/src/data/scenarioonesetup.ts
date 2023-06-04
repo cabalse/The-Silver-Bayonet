@@ -66,7 +66,16 @@ const ScenarioOneSetup: Scenario = {
       type: "Objective",
     },
   ],
-  terrain: [],
+  terrain: [
+    {
+      id: 1,
+      name: "Terrain 1",
+      image: "https://via.placeholder.com/250",
+      width: 250,
+      height: 250,
+      position: { x: 300, y: 300 },
+    },
+  ],
 };
 
 export default ScenarioOneSetup;
