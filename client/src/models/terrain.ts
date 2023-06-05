@@ -5,6 +5,7 @@ type Terrain = {
   width: number;
   height: number;
   position: { x: number; y: number };
+  rotation: number;
 };
 
 export default Terrain;

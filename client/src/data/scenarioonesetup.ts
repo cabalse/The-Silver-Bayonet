@@ -74,6 +74,7 @@ const ScenarioOneSetup: Scenario = {
       width: 250,
       height: 250,
       position: { x: 300, y: 300 },
+      rotation: 45,
     },
   ],
 };

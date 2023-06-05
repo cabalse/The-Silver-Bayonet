@@ -11,6 +11,7 @@ import StateText from "./components/molecules/statetext";
 import ContextMenu from "./components/organisms/contextmenu";
 import CreatePlayingPieces from "./components/organisms/createplayingpieces";
 import useGameContext from "./context/usegamecontext";
+import CreateTerrainPieces from "./components/organisms/createterrainpieces";
 
 const Map = () => {
   const [image] = useImage(map);
@@ -39,6 +40,7 @@ function App() {
           <Stage ref={stageRef} width={1100} height={800} draggable>
             <Layer>
               <Map />
+              <CreateTerrainPieces scenarioName="Scenario One" />
             </Layer>
             <Layer>
               <CreatePlayingPieces

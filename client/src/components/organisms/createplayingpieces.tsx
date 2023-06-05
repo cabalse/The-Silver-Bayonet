@@ -1,8 +1,7 @@
 import { ReactElement, createElement } from "react";
-import ScenarioOneSetup from "../../data/scenarioonesetup";
 import PlayingPiece from "../atoms/playingpiece";
-import Scenario from "../../models/scenario";
 import Position from "../../models/position";
+import scenariosSetup from "../../data/scenariossetup";
 
 type CreatePlayingPiecesProps = {
   scenarioName: string;
@@ -12,8 +11,6 @@ type CreatePlayingPiecesProps = {
   onSelect: (id: number) => void;
   onUnSelectDone: () => void;
 };
-
-const scenariosSetup: Scenario[] = [ScenarioOneSetup];
 
 const CreatePlayingPieces = ({
   scenarioName,
