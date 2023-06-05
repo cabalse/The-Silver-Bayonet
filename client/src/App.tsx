@@ -1,4 +1,4 @@
-import react, { useContext, useRef, useState } from "react";
+import react, { useContext, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image } from "react-konva";
 import useImage from "use-image";
 
@@ -28,6 +28,10 @@ function App() {
   const [GameCTX] = useGameContext();
   const GameState = useContext(GameCTX);
 
+  useEffect(() => {
+    console.log("GameState: ", GameState);
+  }, [GameState]);
+
   return (
     <main className="min-h-screen w-full bg-gray-100 text-gray-700">
       <Header />
@@ -37,31 +41,35 @@ function App() {
           <ContextMenu state={GameState.state} />
         </Sider>
         <div className="w-full p-4">
-          <Stage ref={stageRef} width={1100} height={800} draggable>
-            <Layer>
-              <Map />
-              <CreateTerrainPieces scenarioName="Scenario One" />
-            </Layer>
-            <Layer>
-              <CreatePlayingPieces
-                scenarioName="Scenario One"
-                redoMove={{
-                  redoMovement: redoMovement,
-                  currentSelectedUnit: GameState.currentSelectedUnit,
-                }}
-                onRedoMovementDone={() => setRedoMovement(false)}
-                unSelect={{
-                  unSelect: unSelect,
-                  currentSelectedUnit: GameState.currentSelectedUnit,
-                }}
-                onSelect={(id) => {
-                  setUnSelect(true);
-                  GameState.setSelectedUnit(id);
-                }}
-                onUnSelectDone={() => setUnSelect(false)}
-              />
-            </Layer>
-          </Stage>
+          {GameState.displayMap ? (
+            <Stage ref={stageRef} width={1100} height={800} draggable>
+              <Layer>
+                <Map />
+                <CreateTerrainPieces
+                  scenarioName={GameState.selectedScenario}
+                />
+              </Layer>
+              <Layer>
+                <CreatePlayingPieces
+                  scenarioName={GameState.selectedScenario}
+                  redoMove={{
+                    redoMovement: redoMovement,
+                    currentSelectedUnit: GameState.currentSelectedUnit,
+                  }}
+                  onRedoMovementDone={() => setRedoMovement(false)}
+                  unSelect={{
+                    unSelect: unSelect,
+                    currentSelectedUnit: GameState.currentSelectedUnit,
+                  }}
+                  onSelect={(id) => {
+                    setUnSelect(true);
+                    GameState.setSelectedUnit(id);
+                  }}
+                  onUnSelectDone={() => setUnSelect(false)}
+                />
+              </Layer>
+            </Stage>
+          ) : null}
         </div>
       </div>
     </main>

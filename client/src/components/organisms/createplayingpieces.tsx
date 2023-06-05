@@ -4,7 +4,7 @@ import Position from "../../models/position";
 import scenariosSetup from "../../data/scenariossetup";
 
 type CreatePlayingPiecesProps = {
-  scenarioName: string;
+  scenarioName?: string;
   redoMove: { redoMovement: boolean; currentSelectedUnit: number };
   onRedoMovementDone: () => void;
   unSelect: { unSelect: boolean; currentSelectedUnit: number };
@@ -20,8 +20,9 @@ const CreatePlayingPieces = ({
   onSelect,
   onUnSelectDone,
 }: CreatePlayingPiecesProps) => {
-  const scenarioSetup = scenariosSetup.find((s) => s.name === scenarioName);
+  if (!scenarioName) return <></>;
 
+  const scenarioSetup = scenariosSetup.find((s) => s.name === scenarioName);
   if (!scenarioSetup) return <></>;
 
   const createPlayingPiecesElement = (

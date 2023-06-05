@@ -4,12 +4,13 @@ import Position from "../../models/position";
 import TerrainPiece from "../atoms/terrainpiece";
 
 type CreateTerrainPiecesProps = {
-  scenarioName: string;
+  scenarioName?: string;
 };
 
 const CreateTerrainPieces = ({ scenarioName }: CreateTerrainPiecesProps) => {
-  const scenarioSetup = ScenariosSetup.find((s) => s.name === scenarioName);
+  if (!scenarioName) return <></>;
 
+  const scenarioSetup = ScenariosSetup.find((s) => s.name === scenarioName);
   if (!scenarioSetup) return <></>;
 
   const createTerrainPiecesElement = (
