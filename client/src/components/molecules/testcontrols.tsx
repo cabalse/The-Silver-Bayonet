@@ -1,9 +1,8 @@
 import { useContext } from "react";
-import useGameContext from "../../context/usegamecontext";
+import GameContext from "../../context/gamecontext";
 
 const TestControls = () => {
-  const [GameCTX] = useGameContext();
-  const GameState = useContext(GameCTX);
+  const gameContext = useContext(GameContext);
 
   return (
     <div className="flex">
@@ -15,7 +14,9 @@ const TestControls = () => {
       </button>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => GameState.setDisplayMap(true)}
+        onClick={() =>
+          gameContext.setDisplayMap ? gameContext?.setDisplayMap(true) : null
+        }
       >
         Display Map
       </button>

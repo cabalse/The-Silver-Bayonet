@@ -1,4 +1,4 @@
-import react, { useContext, useEffect, useRef, useState } from "react";
+import react, { useContext, useRef, useState } from "react";
 import { Stage, Layer, Image } from "react-konva";
 import useImage from "use-image";
 
@@ -10,8 +10,8 @@ import Sider from "./components/organisms/layout/sider";
 import StateText from "./components/molecules/statetext";
 import ContextMenu from "./components/organisms/contextmenu";
 import CreatePlayingPieces from "./components/organisms/createplayingpieces";
-import useGameContext from "./context/usegamecontext";
 import CreateTerrainPieces from "./components/organisms/createterrainpieces";
+import GameContext from "./context/gamecontext";
 
 const Map = () => {
   const [image] = useImage(map);
@@ -25,45 +25,42 @@ function App() {
   const [redoMovement, setRedoMovement] = useState(false);
   const [unSelect, setUnSelect] = useState(false);
 
-  const [GameCTX] = useGameContext();
-  const GameState = useContext(GameCTX);
-
-  useEffect(() => {
-    console.log("GameState: ", GameState);
-  }, [GameState]);
+  // Context
+  const gameContext = useContext(GameContext);
+  const { gameState } = gameContext;
 
   return (
     <main className="min-h-screen w-full bg-gray-100 text-gray-700">
       <Header />
       <div className="flex">
         <Sider>
-          <StateText state={GameState.state} />
-          <ContextMenu state={GameState.state} />
+          <StateText state={gameState?.state} />
+          <ContextMenu state={gameState?.state} />
         </Sider>
         <div className="w-full p-4">
-          {GameState.displayMap ? (
+          {gameState?.displayMap ? (
             <Stage ref={stageRef} width={1100} height={800} draggable>
               <Layer>
                 <Map />
                 <CreateTerrainPieces
-                  scenarioName={GameState.selectedScenario}
+                  scenarioName={gameState.selectedScenario}
                 />
               </Layer>
               <Layer>
                 <CreatePlayingPieces
-                  scenarioName={GameState.selectedScenario}
+                  scenarioName={gameState.selectedScenario}
                   redoMove={{
                     redoMovement: redoMovement,
-                    currentSelectedUnit: GameState.currentSelectedUnit,
+                    currentSelectedUnit: gameState.currentSelectedUnit,
                   }}
                   onRedoMovementDone={() => setRedoMovement(false)}
                   unSelect={{
                     unSelect: unSelect,
-                    currentSelectedUnit: GameState.currentSelectedUnit,
+                    currentSelectedUnit: gameState.currentSelectedUnit,
                   }}
                   onSelect={(id) => {
                     setUnSelect(true);
-                    GameState.setSelectedUnit(id);
+                    gameContext.setSelectedUnit ? id : null;
                   }}
                   onUnSelectDone={() => setUnSelect(false)}
                 />
