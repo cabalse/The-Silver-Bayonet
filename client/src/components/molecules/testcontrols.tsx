@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import GameContext from "../../context/gamecontext";
+import GameContext from "../../context/appcontext";
 
 const TestControls = () => {
   const gameContext = useContext(GameContext);

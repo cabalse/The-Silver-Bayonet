@@ -6,7 +6,7 @@ import "./index.css";
 import GameContext, {
   GameContextType,
   GameState,
-} from "./context/gamecontext.ts";
+} from "./context/appcontext.ts";
 import APP_STATE from "./types/appstate.ts";
 import ACTIONS from "./types/actions.ts";
 

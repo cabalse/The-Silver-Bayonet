@@ -5,7 +5,7 @@ import APP_STATE from "../types/appstate";
 import SIDES from "../types/sides";
 import ACTIONS from "../types/actions";
 
-type GameState = {
+type AppState = {
   selectedScenario?: string;
   displayMap: boolean;
   state: APP_STATE;
@@ -16,15 +16,18 @@ type GameState = {
   playingPieces?: PlayingPiece[];
 };
 
-type GameContextType = {
-  gameState?: GameState;
-  setSelectedUnit?: (id: number) => void;
-  setDisplayMap?: (display: boolean) => void;
+const initialState: AppState = {
+  selectedScenario: undefined,
+  displayMap: false,
+  state: APP_STATE.Init,
+  currentPlayer: undefined,
+  playerAction: ACTIONS.None,
+  gameProperties: undefined,
+  currentSelectedUnit: -1,
+  playingPieces: undefined,
 };
 
-const initialState: GameContextType = {};
-
-const GameContext = createContext<GameContextType>(initialState);
+const GameContext = createContext<AppState>(initialState);
 
 export default GameContext;
-export type { GameState, GameContextType };
+export type { AppState };

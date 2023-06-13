@@ -11,7 +11,7 @@ import StateText from "./components/molecules/statetext";
 import ContextMenu from "./components/organisms/contextmenu";
 import CreatePlayingPieces from "./components/organisms/createplayingpieces";
 import CreateTerrainPieces from "./components/organisms/createterrainpieces";
-import GameContext from "./context/gamecontext";
+import GameContext from "./context/appcontext";
 
 const Map = () => {
   const [image] = useImage(map);
