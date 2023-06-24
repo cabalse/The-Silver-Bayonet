@@ -1,8 +1,9 @@
-import { useContext } from "react";
-import GameContext from "../../context/gamecontext";
+import useAppContext from "../../context/useappcontext";
+import { ActionType } from "../../context/reducers/appstatereducers";
+import APP_STATE from "../../types/appstate";
 
 const TestControls = () => {
-  const gameContext = useContext(GameContext);
+  const { appStateDispatch } = useAppContext();
 
   return (
     <div className="flex">
@@ -15,7 +16,10 @@ const TestControls = () => {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() =>
-          gameContext.setDisplayMap ? gameContext?.setDisplayMap(true) : null
+          appStateDispatch({
+            type: ActionType.SWITCHSTATE,
+            payload: { appState: APP_STATE.Init },
+          })
         }
       >
         Display Map
